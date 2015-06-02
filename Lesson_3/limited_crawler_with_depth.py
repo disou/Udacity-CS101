@@ -1,4 +1,5 @@
-__author__ = 'disou'
+__author__ = 'dis'
+
 
 #
 # This question explores a different way (from the previous question)
@@ -93,7 +94,7 @@ def get_next_target(page):
     url = page[start_quote + 1:end_quote]
     return url, end_quote
 
-def union(p, q):
+def union(p,q):
     for e in q:
         if e not in p:
             p.append(e)
@@ -109,56 +110,41 @@ def get_all_links(page):
             break
     return links
 
-def crawl_web(seed,max_depth):
+def crawl_web(seed, max_depth):
     tocrawl = [seed]
     crawled = []
-    next_depth = []
-    depth = 0
-    while tocrawl and depth <= max_depth:
+    while tocrawl:
         page = tocrawl.pop()
         if page not in crawled:
-            union(next_depth, get_all_links(get_page(page)))
+            union(tocrawl, get_all_links(get_page(page)))
             crawled.append(page)
-        if not tocrawl:
-            tocrawl, next_depth = next_depth, []
-            depth = depth + 1
     return crawled
 
-# def crawl_web(seed, max_depth):
-#     tocrawl = [(seed, 0)]
-#     crawled = []
-#     while tocrawl:
-#         page, depth = tocrawl.pop()
-#         if page not in crawled and depth <= max_depth:
-#             if page not in seed:
-#             union(tocrawl, [(new_link, depth + 1) for new_link in get_all_links(get_page(page))])
-#             crawled.append(page)
-#     return crawled
-
-
 print crawl_web("http://www.udacity.com/cs101x/index.html", 0)
-assert crawl_web("http://www.udacity.com/cs101x/index.html", 0) == ['http://www.udacity.com/cs101x/index.html']
+#>>> ['http://www.udacity.com/cs101x/index.html']
 
-print crawl_web("http://www.udacity.com/cs101x/index.html", 1)
-assert crawl_web("http://www.udacity.com/cs101x/index.html", 1) == ['http://www.udacity.com/cs101x/index.html',
-                                                                    'http://www.udacity.com/cs101x/flying.html',
-                                                                    'http://www.udacity.com/cs101x/walking.html',
-                                                                    'http://www.udacity.com/cs101x/crawling.html']
+#print crawl_web("http://www.udacity.com/cs101x/index.html",1)
+#>>> ['http://www.udacity.com/cs101x/index.html',
+#>>> 'http://www.udacity.com/cs101x/flying.html',
+#>>> 'http://www.udacity.com/cs101x/walking.html',
+#>>> 'http://www.udacity.com/cs101x/crawling.html']
 
-print crawl_web("http://www.udacity.com/cs101x/index.html", 50)
-assert crawl_web("http://www.udacity.com/cs101x/index.html", 50) == ['http://www.udacity.com/cs101x/index.html',
-                                                                   'http://www.udacity.com/cs101x/flying.html',
-                                                                   'http://www.udacity.com/cs101x/walking.html',
-                                                                   'http://www.udacity.com/cs101x/crawling.html',
-                                                                   'http://www.udacity.com/cs101x/kicking.html']
+#print crawl_web("http://www.udacity.com/cs101x/index.html",50)
+#>>> ['http://www.udacity.com/cs101x/index.html',
+#>>> 'http://www.udacity.com/cs101x/flying.html',
+#>>> 'http://www.udacity.com/cs101x/walking.html',
+#>>> 'http://www.udacity.com/cs101x/crawling.html',
+#>>> 'http://www.udacity.com/cs101x/kicking.html']
 
-print crawl_web("http://top.contributors/forbiddenvoid.html", 2)
-# assert crawl_web("http://top.contributors/forbiddenvoid.html", 2) == ['http://top.contributors/forbiddenvoid.html',
-#                                                                      'http://top.contributors/graemeblake.html',
-#                                                                      'http://top.contributors/angel.html',
-#                                                                      'http://top.contributors/dreyescat.html',
-#                                                                      'http://top.contributors/johang.html',
-#                                                                      'http://top.contributors/charlzz.html']
+#print crawl_web("http://top.contributors/forbiddenvoid.html",2)
+#>>> ['http://top.contributors/forbiddenvoid.html',
+#>>> 'http://top.contributors/graemeblake.html',
+#>>> 'http://top.contributors/angel.html',
+#>>> 'http://top.contributors/dreyescat.html',
+#>>> 'http://top.contributors/johang.html',
+#>>> 'http://top.contributors/charlzz.html']
 
-print crawl_web("A1", 3)
-assert crawl_web("A1", 3) == ['A1', 'C1', 'B1', 'E1', 'D1', 'F1']  # (May be in any order)
+#print crawl_web("A1",3)
+#>>> ['A1', 'C1', 'B1', 'E1', 'D1', 'F1']
+# (May be in any order)
+
